@@ -193,7 +193,7 @@ for (let i = 0; i<10; i++) {
 	dissapear[i]=0;
 	setTimeout(function(){ }, (Math.random()*751)+150);	svg.appendChild(meteors[i]);
 
-	console.log('gamespeed= '+gameSpeed);
+	//console.log('gamespeed= '+gameSpeed);
 	incr_mtr_y[i] = (Math.floor(Math.random() * gameSpeed)+3);
 	
 	explode[i]= new Audio('boom.wav');
@@ -213,8 +213,8 @@ livesImg.setAttributeNS(null, 'width', 100);
 livesImg.setAttributeNS(null, 'height', 100);
 livesImg.setAttributeNS(null, 'x', window.innerWidth-hplng-120);
 livesImg.setAttributeNS(null, 'y', 50);
-console.log(livesImg.getAttributeNS(null, 'x'));
-console.log(hitPoints.getAttributeNS(null, 'x'));
+//console.log(livesImg.getAttributeNS(null, 'x'));
+//console.log(hitPoints.getAttributeNS(null, 'x'));
 svg.appendChild(livesImg);
 
 //SPACEshipppp
@@ -634,7 +634,7 @@ function daEnd(){
 }
 
 function resize(){ 
-	console.log('resize start');
+	//console.log('resize start');
 	radius=(window.innerHeight+window.innerWidth)/50;
 	for (let i=0; i<10; i++) {
 		meteors[i].setAttributeNS(null, 'r', radius);
