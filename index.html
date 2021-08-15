@@ -90,14 +90,14 @@ window.addEventListener( 'load', ()=>{
 	window.addEventListener('mousedown', charge);
 	window.addEventListener("keydown", e => {
 			var movespeed = 15;
-			console.log(e.code);
+			//console.log(e.code);
 			if (noMove===0){
 				if (e.code === 'ArrowLeft') {
 					spcShpX -= movespeed;
 				}
 				
 			if(e.code==='KeyM'){
-			console.log(e.code);
+			//console.log(e.code);
 				if (ifMuted===0){
 					muteSounds();
 				} else {
@@ -245,7 +245,7 @@ function powerups(){
 		selectOP=Math.ceil(Math.random()*100);
 		
 		power_pickup = 0;
-		console.log(selectOP)
+		//console.log(selectOP)
 		if(selectOP<=50){
 			//Add l life power-up
 			shield.setAttributeNS(null, 'x', Math.random()*window.innerWidth);
@@ -304,7 +304,6 @@ function addLife(timestamp){
 	shield.setAttributeNS(null, 'y', pwrUpY);
 	if(pwrUpY>=window.innerHeight||power_pickup===1){
 	if (power_pickup===1){
-			console.log('a');
 			numLives++;
 			hitPoints.innerHTML= 'x'+numLives;
 		}
@@ -323,7 +322,6 @@ function makeInvul(timestamp){
 	forceField.setAttributeNS(null, 'y', pwrUpY);
 	if(pwrUpY>=window.innerHeight||power_pickup===1){
 		if (power_pickup===1){
-			console.log('b');
 			bubbleFF.setAttributeNS(null,'href', 'ForceField.svg');
 			shieldUp=1;
 			setTimeout(function () {
@@ -346,11 +344,9 @@ function BOOOOM(){
 	plasmaCannon.setAttributeNS(null, 'y', pwrUpY);
 	if(pwrUpY>=window.innerHeight||power_pickup===1){
 		if (power_pickup===1){
-			console.log('c');
 			points+=100;
 			numPoints.innerHTML='points: '+points;
 			for (let i=0;i<10;i++){
-				console.log('workssss');
 				ifhit=1;
 				exploded=1;
 				if (ifhit===1){
@@ -383,9 +379,9 @@ function collectPwrUp(ship,pwrUp){
 	var pwrx2=pwrx1+100;
 	
 	if( ((pwrx1>=shpx1 && pwrx1<=shpx2) || (pwrx2>=shpx1 && pwrx2<=shpx2)) && ((pwry1>=shpy1 && pwry1<=shpy2) || (pwry2>=shpy1 && pwry2<=shpy2)) && power_pickup===0){
-		console.log('working');		
-		console.log("Ship=["+shpx1 +", "+shpy1+"] ;Power=["+pwrx1+", "+pwry1+"]");
-		console.log("Ship=["+shpx2 +", "+shpy2+"] ;Power=["+pwrx2+", "+pwry2+"]");
+		//console.log('working');		
+		//console.log("Ship=["+shpx1 +", "+shpy1+"] ;Power=["+pwrx1+", "+pwry1+"]");
+		//console.log("Ship=["+shpx2 +", "+shpy2+"] ;Power=["+pwrx2+", "+pwry2+"]");
 		power_pickup = 1;
 	}
 }
