@@ -72,7 +72,7 @@ var num_star = 300;
 
 var gameSpeed = 1;
 var myAudio= new Audio('spaceAdventure.mp3');
-var pewsound= new Audio('pew.wav');
+var pewsound= new Audio('Pew.wav');
 var explode= [];
 var hitnoise=[new Audio('ding.mp3'), new Audio('donk.mp3'), new Audio('dink.mp3')];
 var power_pickup = 0;
@@ -242,7 +242,7 @@ movemetrs();
 
 function powerups(){
 	if (noMove===0){
-		selectOP=100;//Math.ceil(Math.random()*100);
+		selectOP=Math.ceil(Math.random()*100);
 		
 		power_pickup = 0;
 		console.log(selectOP)
@@ -270,8 +270,8 @@ function powerups(){
 
 function createPwrUp(){
 	shield.setAttributeNS(null, 'href', 'ShieldGen.svg');
-	forceField.setAttributeNS(null, 'href', 'forceField.svg');
-	plasmaCannon.setAttributeNS(null, 'href', 'plasmaCannon.svg');
+	forceField.setAttributeNS(null, 'href', 'ForceField.svg');
+	plasmaCannon.setAttributeNS(null, 'href', 'PlasmaCannon.svg');
 	
 	shield.setAttributeNS(null, 'width', 100);
 	shield.setAttributeNS(null, 'height', 100);
@@ -324,7 +324,7 @@ function makeInvul(timestamp){
 	if(pwrUpY>=window.innerHeight||power_pickup===1){
 		if (power_pickup===1){
 			console.log('b');
-			bubbleFF.setAttributeNS(null,'href', 'forceField.svg');
+			bubbleFF.setAttributeNS(null,'href', 'ForceField.svg');
 			shieldUp=1;
 			setTimeout(function () {
 				bubbleFF.setAttributeNS(null,'href', 'nothing.svg');
