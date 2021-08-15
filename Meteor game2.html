@@ -1,0 +1,419 @@
+<HTML>
+<body>
+<svg id='space'width='100%'height='100%' style='background-color:black'>
+	<!--<image xlink:href="Spaceship.svg" alt="Spaceship" height="150" width="150" x='0' y='0' id="Spaceship"/>-->
+	
+</svg>
+<!--<object data="meteor1.svg" type="image/svg+xml" id="mtr1"></object>
+<object data="meteor2.svg" type="image/svg+xml" id="mtr2"></object>
+<object data="meteor3.svg" type="image/svg+xml" id="mtr3"></object>-->
+<script>
+
+var endAlr= 0;
+var btn=document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+var noMove=0;
+var endscr = 0;
+var endwrd, wrdy, wrdx, endNode;
+var svg = document.getElementById('space');
+var meteorx = [], meteory=[];
+var meteors = [];
+var stars = [];
+var strx1 = [], stry1=[], strx2 = [], stry2=[], strlength=50;
+var colors = ['red', 'orange','yellow','green','blue','purple'];
+var incrstry=[];
+var incr_mtr_y=[];
+var j=0;
+var points=0;
+var lives=5;
+var hplng=125
+var finalscr=document.createElementNS('http://www.w3.org/2000/svg', 'text');
+var btnwrd= document.createElementNS('http://www.w3.org/2000/svg', 'text');
+var numPoints = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+var hitPoints = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+var fscrNode=document.createTextNode('');
+var btntxt= document.createTextNode("Click to restart");
+var txt = document.createTextNode("points: 0");
+var HPtxt = document.createTextNode("x5");
+var pewsLng;
+var ns = "https://www.w3schools.com/edition/";
+var spaceship;//=document.getElementById('Spaceship');
+
+var spcShpX = window.innerWidth/2;
+var spcShpY = window.innerHeight-50;
+var pewY=0;
+var incrPewY=10;
+var pewLng= (window.innerHeight+window.innerWidth)/60;
+var pews=document.createElementNS('http://www.w3.org/2000/svg', 'line');
+var canPew=1;
+var ifhit=0;
+var dissapear=[];
+var pewspwn=(window.innerHeight+window.innerWidth)/20
+var num_star = 300;
+/*stars*/
+
+for (let i=0; i<num_star; i++) {
+	stars[i] = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+	strx1[i]=Math.random()*window.innerWidth;
+	strx2[i]= strx1[i];
+	stry1[i]=Math.random()*window.innerHeight;
+	stry2[i]= stry1[i]+strlength;
+	//star SPEEED
+	incrstry[i] = (Math.random()*3)+1;
+	stars[i].setAttributeNS(null, 'x1', strx1[i]);
+	stars[i].setAttributeNS(null, 'x2', strx2[i]);
+	stars[i].setAttributeNS(null, 'y1', stry1[i]);
+	stars[i].setAttributeNS(null, 'y2', stry2[i]);
+	stars[i].setAttributeNS(null,'stroke-width', 2);
+	stars[i].setAttributeNS(null,'stroke', "#a9a9a9");
+	svg.appendChild(stars[i]);
+	
+} 
+
+//points
+numPoints.setAttributeNS(null, 'x', 5);
+numPoints.setAttributeNS(null, 'y', 15);
+numPoints.setAttributeNS(null, 'fill', 'white');
+numPoints.appendChild(txt);
+svg.appendChild(numPoints);
+
+
+//get mother meteors
+
+/*var svgObject=document.getElementById('mtr1').contentDocument;
+//var svgTag=svgObject.getElementsByTagName('svg')[0];
+console.log("svgObject= "+svgObject);
+var mtr1=svgObject.getElementById('g68');
+console.log("mtr1= "+mtr1);
+var mtr2=document.getElementById('mtr2');
+var mtr3=document.getElementById('mtr3');*/
+
+for (let i = 0; i<10; i++) {
+	meteorx[i] = Math.random()*window.innerWidth;
+	meteory[i] = 0;
+	
+	meteors[i] = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+	meteors[i].setAttributeNS(null, 'cx', meteorx[i]);
+	meteors[i].setAttributeNS(null, 'cy', meteory[i]);
+	meteors[i].setAttributeNS(null, 'r', 40);
+	meteors[i].setAttributeNS(null, 'fill', "rgb(128,128,128)" );
+	meteors[i].setAttributeNS(null, 'fill-opacity', 1);
+	//meteors[i].setAttributeNS(null, 'stroke', "black" );
+	//meteors[i].setAttributeNS(null, 'stroke-width', '5');
+	meteors[i].setAttributeNS(null, 'id', 'enemy');
+	
+	dissapear[i]=0;
+	setTimeout(function(){ }, (Math.random()*751)+150);	svg.appendChild(meteors[i]);
+
+}
+//hp
+hitPoints.setAttributeNS(null, 'x', window.innerWidth-hplng);
+hitPoints.setAttributeNS(null, 'y', 50);
+hitPoints.setAttributeNS(null, 'font-size', 60);
+hitPoints.setAttributeNS(null, 'fill', 'white');
+hitPoints.appendChild(HPtxt);
+svg.appendChild(hitPoints);
+
+//SPACEshipppp
+spaceship=document.createElementNS('http://www.w3.org/2000/svg', 'image');
+spaceship.setAttributeNS(null, 'href', 'Spaceship.svg');
+spaceship.setAttributeNS(null, 'alt', 'Spaceship');
+spaceship.setAttributeNS(null, 'height', 150);
+spaceship.setAttributeNS(null, 'width', 100);
+var spcwidth= parseFloat(spaceship.getAttributeNS(null, 'width'));
+spaceship.setAttributeNS(null, 'x', spcShpX);
+spaceship.setAttributeNS(null, 'y', spcShpY-150);
+spaceship.setAttributeNS(null, 'id', 'spaceship');
+svg.appendChild(spaceship)
+//console.log('x'+parseFloat(spaceship.getAttributeNS(null, 'x'))+'y'+parseFloat(spaceship.getAttributeNS(null, 'y')));
+movestrs();
+movemetrs();
+
+
+
+function movestrs(timestamp){
+	for (let i = 0; i < num_star; i++) {
+		
+		
+		stry1[i] += incrstry[i];
+		stry2[i] = stry1[i]+strlength;		
+
+		//if(i===0)
+			//console.log("y2 =" + stry2[i]);
+
+		stars[i].setAttributeNS(null, 'y1', stry1[i]);
+		stars[i].setAttributeNS(null, 'y2', stry2[i]);
+		
+		if (stry2[i] >= window.innerHeight) {
+			stry1[i]=0;
+			stry2[i]=strlength;
+			strx1[i] = Math.random()*window.innerWidth;
+			strx2[i] = strx1[i];
+			stars[i].setAttributeNS(null, 'x1', strx1[i]);
+			stars[i].setAttributeNS(null, 'x2', strx2[i]);
+			stars[i].setAttributeNS(null, 'y1', stry1[i]);
+			stars[i].setAttributeNS(null, 'y2', stry2[i]);
+		}
+		
+		
+	}
+	window.requestAnimationFrame(movestrs);
+}
+
+window.addEventListener('load', ()=>{  
+	resize(); 
+	window.addEventListener('resize', resize);
+	
+});
+
+document.addEventListener("keydown", e => {
+	var movespeed = 15;
+   // console.log(e.code);
+	if (e.code === 'ArrowLeft') {
+		spcShpX -= movespeed;
+		spaceship.setAttributeNS(null, 'x', spcShpX);
+		spaceship.setAttributeNS(null, 'y', spcShpY-150);
+		//console.log('x'+parseFloat(spaceship.getAttributeNS(null, 'x'))+'y'+parseFloat(spaceship.getAttributeNS(null, 'y')));
+	}
+	if (e.code === 'ArrowRight') {
+		spcShpX += movespeed;
+		spaceship.setAttributeNS(null, 'x', spcShpX);
+		spaceship.setAttributeNS(null, 'y', spcShpY-150);
+		//console.log('x'+parseFloat(spaceship.getAttributeNS(null, 'x'))+'y'+parseFloat(spaceship.getAttributeNS(null, 'y')));
+	}
+	if (e.code === 'Space') {
+				
+		
+		if (canPew===1){
+			canPew=0;
+		//console.log("Pew, pew!");
+			pew();
+		}
+	}
+});
+function pew() {
+	pews.setAttributeNS(null, 'x1', spcShpX+(spcwidth/2));
+	pews.setAttributeNS(null, 'y1', spcShpY-pewspwn);
+	pews.setAttributeNS(null, 'x2', spcShpX+(spcwidth/2));
+	pews.setAttributeNS(null, 'y2', spcShpY-pewspwn-pewLng);
+	pews.setAttributeNS(null, 'stroke', 'cyan');
+	pews.setAttributeNS(null, 'stroke-width', 5);
+	svg.appendChild(pews);
+	movepew(pews, pewLng);
+}
+
+function movepew(timestamp) {
+	
+	var incrpew=10;
+	var pewy=parseFloat(pews.getAttributeNS(null, 'y1'));
+	pewy-=incrpew;
+	pews.setAttributeNS(null, 'y1', pewy);
+	pews.setAttributeNS(null, 'y2', pewy-pewLng);
+	//console.log('pewy='+ pewy + 'total='+ (pewy-linelength))
+	if ((pewy-pewLng)<=0 || ifhit===1){
+		//console.log('remove line');
+		pews.setAttributeNS(null, 'x1', -312);
+		pews.setAttributeNS(null, 'y1', -312);
+		pews.setAttributeNS(null, 'x2', -312);
+		pews.setAttributeNS(null, 'y2', -312);
+		svg.removeChild(pews);
+		canPew=1;
+	} else {
+	//	console.log('pewy='+pewy+' '+'pewx='+spcShpX+(spcwidth/2));
+		window.requestAnimationFrame(movepew);
+	}
+}
+
+function daEnd(){
+	//blackout the screen
+	if (endAlr===0){
+		endscr=document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		endscr.setAttributeNS(null, 'fill', 'black');
+		endscr.setAttributeNS(null, 'height', window.innerHeight);
+		endscr.setAttributeNS(null, 'width', window.innerWidth);
+		//endscr.setAttributeNS(null, 'fill-opacity', 0);
+		svg.appendChild(endscr);
+	} else {
+		endscr.setAttributeNS(null,'fill-opacity',1);
+	}
+	
+	//words that say "GAME OVER"
+	if(endAlr===0){
+		endwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
+		endNode=document.createTextNode("GAME OVER");
+		endwrd.setAttributeNS(null, 'x', (window.innerWidth/2)-210);
+		endwrd.setAttributeNS(null, 'y', window.innerHeight/2);
+		endwrd.setAttributeNS(null, 'font-size', 60);
+		endwrd.setAttributeNS(null, 'fill', 'red');
+		endwrd.appendChild(endNode);
+		svg.appendChild(endwrd);
+	} else {
+		endwrd.setAttributeNS(null,'fill-opacity',1);
+	}
+	
+	//the final score
+	if(endAlr===0){
+		finalscr.setAttributeNS(null, 'x', window.innerWidth/2-200);
+		finalscr.setAttributeNS(null, 'y', window.innerHeight/4);
+		finalscr.setAttributeNS(null, 'font-size', 30);
+		finalscr.setAttributeNS(null, 'fill', 'red');
+		finalscr.innerHTML='Score: '+ points;
+		finalscr.appendChild(fscrNode);
+		svg.appendChild(finalscr);
+	} else {
+		finalscr.innerHTML='Score: '+ points;
+		finalscr.setAttributeNS(null, 'fill-opacity', 1);
+	}
+	
+	noMove=1;
+	makebtn();
+}
+
+function resize(){ 
+	//console.log('r');
+	for (let i=0; i<10; i++) {
+		meteors[i].setAttributeNS(null, 'r', (window.innerHeight+window.innerWidth)/50);
+	}
+	
+	spcShpX = window.innerWidth/2;
+	spcShpY = window.innerHeight-50;
+	//console.log("spcwidth="+spcwidth+ " spcShpY="+spcShpY);
+	hitPoints.setAttributeNS(null, 'x', window.innerWidth-hplng);
+hitPoints.setAttributeNS(null, 'y', 50);
+	spaceship.setAttributeNS(null, 'y', spcShpY-150);
+	spaceship.setAttributeNS(null, 'x', spcShpX);
+	
+	strlength=window.innerHeight*0.05; //star length is 5% of screen
+	
+	if (endscr !== 0){
+		endscr.setAttributeNS(null, 'height', window.innerHeight);
+		endscr.setAttributeNS(null, 'width', window.innerWidth);
+	}
+}
+function collide(mtr, laser,ship){
+	var r = parseFloat(mtr.getAttributeNS(null, 'r'));
+	var cx = parseFloat(mtr.getAttributeNS(null, 'cx'));
+	var cy = parseFloat(mtr.getAttributeNS(null, 'cy'));
+	var shpy=parseFloat(spaceship.getAttributeNS(null, 'y'));
+	var shpx=parseFloat(spaceship.getAttributeNS(null, 'x'));
+	var hit=0;	
+	var sx1= parseFloat(ship.getAttributeNS(null, 'x'));
+	var sx2= sx1+spcwidth;
+	var sy1= parseFloat(ship.getAttributeNS(null, 'y'));
+	var sy2= sy1+parseFloat(spaceship.getAttributeNS(null, 'height'));
+	var mx1= cx-r;
+	var mx2= cx+r;
+	var my1= cy+r;
+	var my2= cy-r;
+	var lx=parseFloat(laser.getAttributeNS(null, 'x1'));
+	var ly=parseFloat(laser.getAttributeNS(null, 'y2'));
+	//console.log('cx='+cx+' cy'+cy + ' r='+r);
+	//console.log('mx1='+mx1+' mx2='+mx2+' my1='+my1+' my2='+my2);
+	//console.log('lx='+lx+' ly='+ly);
+	if(parseFloat(mtr.getAttributeNS(null, 'fill-opacity'))===0){
+		hit=1;
+	}
+	if(lx>=mx1 && lx<=mx2 && ly>=my2 && ly<=my1&& hit===0){
+		ifhit=1;
+		hit=1;
+		//console.log('hit!!');
+		points++;
+		numPoints.innerHTML = "points: " + points;
+		pews.setAttributeNS(null, 'x1', -312);
+		pews.setAttributeNS(null, 'y1', -312);
+		pews.setAttributeNS(null, 'x2', -312);
+		pews.setAttributeNS(null, 'y2', -312);
+		canPew=1;
+	}
+	//spaceship colision
+	if( ((mx1>=sx1 && mx1<=sx2) || (mx2>=sx1 && mx2<=sx2)) && ((my1>=sy1 && my1<=sy2) || (my2>=sy1 && my2<=sy2)) && hit===0 ) {
+		console.log("bang!");
+		lives--;
+		ifhit=1;
+		hit=1;
+		console.log('lives:' + lives);
+		hitPoints.innerHTML = "x" + lives;
+		
+		if(lives<=0){
+			/*it's*/ daEnd();
+		}
+		
+	}
+}
+
+
+function movemetrs(timestamp) {
+	for (let i = 0; i < 10; i++) {
+		
+		incr_mtr_y[i] = (Math.floor(Math.random() * 10)+1);
+		meteory[i] += incr_mtr_y[i];			
+		meteors[i].setAttributeNS(null, 'cy', meteory[i]);
+		
+		//console.log('meteors['+i+']');
+		collide(meteors[i], pews,spaceship);
+		if (ifhit===1){
+			meteors[i].setAttributeNS(null,'fill-opacity',0);
+			ifhit=0;
+		}
+		if (meteory[i] >= window.innerHeight) {
+			meteors[i].setAttributeNS(null, 'fill-opacity', 1);
+			meteory[i]=0;
+			meteorx[i] = Math.random()*window.innerWidth;
+			meteors[i].setAttributeNS(null, 'cx', meteorx[i]);
+		}
+		
+		
+	}
+	if (noMove === 0){
+		window.requestAnimationFrame(movemetrs);
+		
+	}
+}	
+
+
+function makebtn(){
+	var btnWidth=window.innerWidth/4;
+	if (endAlr ===0){
+		btn.setAttributeNS(null, 'width', window.innerWidth/4);
+		btn.setAttributeNS(null,'height',window.innerHeight/20);
+		btn.setAttributeNS(null, 'y', 3*(window.innerHeight/4));
+		btn.setAttributeNS(null, 'x', ((window.innerWidth/2)-(btnWidth)/2)-25);
+		btn.setAttributeNS(null, 'stroke', 'white');
+		btn.setAttributeNS(null, 'stroke-width', 1);
+		btn.setAttributeNS(null,'fill','black');
+		svg.appendChild(btn);
+		
+		
+		btnwrd.setAttributeNS(null, 'x', (window.innerWidth/2)-210);
+		btnwrd.setAttributeNS(null, 'y', 3*(window.innerHeight/4)+45);
+		btnwrd.setAttributeNS(null, 'font-size', 60);
+		btnwrd.setAttributeNS(null, 'fill', 'red');
+		btnwrd.appendChild(btntxt);
+		svg.appendChild(btnwrd);
+	} else {
+		btn.setAttributeNS(null,'fill-opacity',1);
+		btn.setAttributeNS(null,'stroke-width',1);
+		btnwrd.setAttributeNS(null,'fill-opacity',1);
+	}
+	btn.addEventListener('click', reset);
+	btnwrd.addEventListener('click', reset);
+}
+
+function reset() {
+	lives=5;
+	points=0;
+	hitPoints.innerHTML = "x" + lives;
+	txt.innerHTML = 'points: ' + points;
+	endscr.setAttributeNS(null,'fill-opacity',0);
+	endwrd.setAttributeNS(null,'fill-opacity',0);
+	btn.setAttributeNS(null,'fill-opacity',0);
+	btn.setAttributeNS(null,'stroke-width',0);
+	btnwrd.setAttributeNS(null,'fill-opacity',0);
+	finalscr.setAttributeNS(null, 'fill-opacity', 0);
+	endAlr=1;
+	noMove=0;
+	numPoints.innerHTML='points: '+points;
+	movemetrs();
+}
+</script>
+</body>
+</HTML>
