@@ -90,6 +90,7 @@ window.addEventListener( 'load', ()=>{
 	resize();
 	window.addEventListener('resize', resize);
 	window.addEventListener("mousemove", getMousePos );
+	window.addEventListener("contextmenu", disableTP);
 	window.addEventListener('mouseup', shoot);
 	window.addEventListener('mousedown', charge);
 	window.addEventListener("keydown", e => {
@@ -533,6 +534,10 @@ function charge(event){
 	event.preventDefault();
 }
 
+function disableTP(e){
+	e.preventDefault();
+}
+
 function moveship(timestamp){
 	if (spcShpX<=0){
 		spcShpX=0;
@@ -771,7 +776,7 @@ function movemetrs(timestamp) {
 			}
 			meteory[i]=0;
 			meteorx[i] = Math.random()*window.innerWidth;
-			meteors[i].setAttributeNS(null, 'cx', meteorx[i]);
+			meteors[i].setAttributeNS(null, 'x', meteorx[i]);
 			incr_mtr_y[i] = (Math.floor(Math.random() * gameSpeed)+3);
 			randommtr[i]=0;
 		}
