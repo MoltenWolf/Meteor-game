@@ -114,6 +114,8 @@ window.addEventListener( 'load', ()=>{
 			
 			
 			
+			
+			
 				if (e.code === 'ArrowRight') {
 					spcShpX += movespeed;
 				}
@@ -247,8 +249,15 @@ movestrs();
 movemetrs();
 
 function powerups(){
-	if (noMove===0){
-		selectOP=Math.ceil(Math.random()*100);
+		if (noMove===0){
+			if (alwaysPlas==0){
+				selectOP=Math.ceil(Math.random()*100);
+			} else {
+				if (alwaysPlas==1) {
+					selectOP=100;
+				}
+			}
+		
 		
 		power_pickup = 0;
 		//console.log(selectOP)
@@ -273,6 +282,13 @@ function powerups(){
 		setTimeout(function (){powerups()}, (Math.random()*10000))/*90000)-30000)*/;
 	}
 }
+
+function pwrAlwaysPlasma(){
+	if(window.confirm('Do you want to turn on always plasma hacks?')){ 
+		alwaysPlas=1;
+	} 
+}
+
 
 function createPwrUp(){
 	shield.setAttributeNS(null, 'href', 'ShieldGen.svg');
@@ -513,7 +529,9 @@ function movestrs(timestamp){
 	window.requestAnimationFrame(movestrs);
 }
 
-
+function achievements(){
+	
+}
 
 function getMousePos(event){
 	event.preventDefault();
@@ -536,6 +554,13 @@ function charge(event){
 
 function disableTP(e){
 	e.preventDefault();
+		/*if (noMove==0){
+			pause();
+		} else{
+			if (noMove==1) {
+			unPause();
+		}
+	}*/
 }
 
 function moveship(timestamp){
@@ -818,6 +843,18 @@ function makebtn(){
 	btnwrd.addEventListener('click', reset);
 }
 
+function pause(){
+	noMove=1;
+}
+
+function unPause(){
+	console.log("works!");
+	reset();
+	noMove=0;
+		movemetrs();
+		moveship();
+}
+
 function reset() {
 	if (numLives<=0){
 		numLives=5;
@@ -829,13 +866,14 @@ function reset() {
 		svg.removeChild(btn);
 		svg.removeChild(btnwrd);
 		svg.removeChild(finalscr);
-		endAlr=1;
 		noMove=0;
+		endAlr=1;
 		numPoints.innerHTML='points: '+points;
 		for(let i=0;i<10;i++){
 			isMolten[i]=0;
 			isGold[i]=0;
 		}
+		console.log("works")
 		movemetrs();
 		moveship();
 		//remove events
