@@ -16,9 +16,11 @@ var started=0;
 var ctm;
 var endscr = 0;
 var selectOP;
+var started=0;
 var pwrUpPos=Math.random()*window.innerWidth;
 var incrPwrY=10;
 var strtbtn=document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+var hardcorebtn=document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 var forceField=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var shield=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var plasmaCannon=document.createElementNS('http://www.w3.org/2000/svg', 'image');
@@ -35,6 +37,7 @@ var strlength=5; //adjusted in resize
 var colors = ['red', 'orange','yellow','green','blue','purple'];
 var incrstry=[];
 var incr_mtr_y=[];
+var agree=0;
 var j=0;
 var shieldUp=0;
 var ifMuted=0;
@@ -42,21 +45,24 @@ var muteBtn=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var exploded=0;
 var randommtr=[0,0,0,0,0,0,0,0,0,0];
 var points=0;
-var numLives=5;//"Infinity";
+var numLives=0;//"Infinity";
 var mtrWidth= 100;
 var mtrHeight= 100;
 var livesImg=document.createElementNS('https://www.w3.org/2000/svg', 'image');
 var startwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
+var hardcorewrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var finalscr=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var btnwrd= document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var numPoints = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var hitPoints = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var fscrNode=document.createTextNode('');
 var startNode=document.createTextNode('Click to start');
+var hardNode=document.createTextNode('Click to start hardcore');
 var btntxt= document.createTextNode("Click to restart");
 var txt = document.createTextNode("points: 0");
-var HPtxt = document.createTextNode("x" + numLives);
+var HPtxt = 0;
 var hplng = 125;
+var isHard=0;
 var pewsLng;
 var ns = "https://www.w3schools.com/edition/";
 var spaceship;//=document.getElementById('Spaceship');
@@ -134,6 +140,7 @@ function test(){
 createPwrUp();
 
 createstrtbtn();
+createhardcorebtn();
 a();
 function a(){
 	if (points>=10){
@@ -207,23 +214,7 @@ for (let i = 0; i<10; i++) {
 	explode[i]= new Audio('boom.wav');
 }
 //hp
-hitPoints.setAttributeNS(null, 'x', window.innerWidth-hplng);
-hitPoints.setAttributeNS(null, 'y', 50);
-hitPoints.setAttributeNS(null, 'font-size', 60);
-hitPoints.setAttributeNS(null, 'fill', 'white');
-hitPoints.appendChild(HPtxt);
-svg.appendChild(hitPoints);
-livesImg.setAttributeNS(null, 'href', 'Lives.svg');
 
-livesImg.setAttributeNS(null, 'alt', 'No. of livesImg');
-livesImg.setAttributeNS(null, 'id', 'livesImg');
-livesImg.setAttributeNS(null, 'width', 100);
-livesImg.setAttributeNS(null, 'height', 100);
-livesImg.setAttributeNS(null, 'x', window.innerWidth-hplng-120);
-livesImg.setAttributeNS(null, 'y', 50);
-//console.log(livesImg.getAttributeNS(null, 'x'));
-//console.log(hitPoints.getAttributeNS(null, 'x'));
-svg.appendChild(livesImg);
 
 //SPACEshipppp
 spaceship=document.createElementNS('http://www.w3.org/2000/svg', 'image');
@@ -479,10 +470,48 @@ function createstrtbtn(){
 	startwrd.addEventListener('click', start);
 	
 }
+
+function createhardcorebtn(){
+	
+	hardcorebtn.setAttributeNS(null, 'height', window.innerHeight/25);
+	hardcorebtn.setAttributeNS(null, 'width', window.innerWidth/4);
+	hardcorebtn.setAttributeNS(null, 'y', window.innerHeight/2);
+	hardcorebtn.setAttributeNS(null, 'x', (window.innerWidth/2)-(window.innerWidth/7));
+	hardcorebtn.setAttributeNS(null, 'fill', 'black');
+	hardcorebtn.setAttributeNS(null, 'stroke', 'red');
+	hardcorebtn.setAttributeNS(null, 'stroke-width', 1);
+	svg.appendChild(hardcorebtn);
+	
+	hardcorewrd.setAttributeNS(null, 'fill', 'red');
+	hardcorewrd.setAttributeNS(null, 'font-size', 40);
+	hardcorewrd.setAttributeNS(null, 'y', window.innerHeight/2+35);
+	hardcorewrd.setAttributeNS(null, 'x', window.innerWidth/2-220);
+	hardcorewrd.appendChild(hardNode);
+	svg.appendChild(hardcorewrd);
+	hardcorebtn.addEventListener('click', warning);
+	hardcorewrd.addEventListener('click', warning);
+
+}
+
+function warning(){
+	if(started==0){
+	if (confirm("Clicking 'OK' means that you want to start hardcore mode (one life). This cannot be undone until you reload. However, you will get x2 points. Continue?")){
+		numLives=1;
+		HPtxt="x1";
+		isHard=1;
+		start();
+	}
+	}
+}
+
 function start(){
+	started=1;
 	strtbtn.setAttributeNS(null, 'fill-opacity', 0);
 	strtbtn.setAttributeNS(null, 'stroke-width', 0);
 	startwrd.setAttributeNS(null, 'fill-opacity', 0);
+	hardcorebtn.setAttributeNS(null, 'fill-opacity', 0);
+	hardcorebtn.setAttributeNS(null, 'stroke-width', 0);
+	hardcorewrd.setAttributeNS(null, 'fill-opacity', 0);
 	
 	myAudio.play();
 	
@@ -493,10 +522,32 @@ function start(){
 	movemetrs();
 	
 	moveship();
-		
+	
+	HPtxt = document.createTextNode("x" + numLives);
+	
+	hitPoints.setAttributeNS(null, 'x', window.innerWidth-hplng);
+	hitPoints.setAttributeNS(null, 'y', 50);
+	hitPoints.setAttributeNS(null, 'font-size', 60);
+	hitPoints.setAttributeNS(null, 'fill', 'white');
+	hitPoints.appendChild(HPtxt);
+	svg.appendChild(hitPoints);
+	livesImg.setAttributeNS(null, 'href', 'Lives.svg');
+	
+	livesImg.setAttributeNS(null, 'alt', 'No. of livesImg');
+	livesImg.setAttributeNS(null, 'id', 'livesImg');
+	livesImg.setAttributeNS(null, 'width', 100);
+	livesImg.setAttributeNS(null, 'height', 100);
+	livesImg.setAttributeNS(null, 'x', window.innerWidth-hplng-120);
+	livesImg.setAttributeNS(null, 'y', 50);
+	//console.log(livesImg.getAttributeNS(null, 'x'));
+	//console.log(hitPoints.getAttributeNS(null, 'x'));
+	svg.appendChild(livesImg);
+	
 	strtbtn.removeEventListener('click', start);
 	startwrd.removeEventListener('click', start);
 }
+
+
 
 
 
@@ -857,7 +908,13 @@ function unPause(){
 
 function reset() {
 	if (numLives<=0){
-		numLives=5;
+		if(isHard==0){
+			numLives=5;
+		} else {
+			if(isHard==1){
+				numLives=1;
+			}
+		}
 		points=0;
 		hitPoints.innerHTML = "x" + numLives;
 		txt.innerHTML = 'points: ' + points;
