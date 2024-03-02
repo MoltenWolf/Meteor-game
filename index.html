@@ -15,7 +15,6 @@ var noMove=1;
 var started=0;
 var ctm;
 var endscr = 0;
-var multiplier = 1;
 var selectOP;
 var started=0;
 var pwrUpPos=Math.random()*window.innerWidth;
@@ -46,7 +45,7 @@ var muteBtn=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var exploded=0;
 var randommtr=[0,0,0,0,0,0,0,0,0,0];
 var points=0;
-var numLives=0;//"Infinity";
+var numLives=5;//"Infinity";
 var mtrWidth= 100;
 var mtrHeight= 100;
 var livesImg=document.createElementNS('https://www.w3.org/2000/svg', 'image');
@@ -63,7 +62,7 @@ var btntxt= document.createTextNode("Click to restart");
 var txt = document.createTextNode("points: 0");
 var HPtxt = 0;
 var hplng = 125;
-var isHard=0;
+var isHard=1;
 var pewsLng;
 var ns = "https://www.w3schools.com/edition/";
 var spaceship;//=document.getElementById('Spaceship');
@@ -82,10 +81,7 @@ var pewspwn=(window.innerHeight+window.innerWidth)/20
 var num_star = 300;
 
 var gameSpeed = 1;
-var myAudio= [spcAdv, MTRgs1, MTRgs2];
-var spcAdv=new Audio('SpaceAdventure.mp3');
-var MTRgs1=new Audio('MTRgamesong1.mp3');
-var MTRgs2=new Audio('MTRgamesong2.mp3');
+var myAudio= new Audio('SpaceAdventure.mp3');
 var pewsound= new Audio('Pew.wav');
 var explode= [];
 var hitnoise=[new Audio('ding.mp3'), new Audio('donk.mp3'), new Audio('dink.mp3')];
@@ -361,7 +357,7 @@ function BOOOOM(){
 	plasmaCannon.setAttributeNS(null, 'y', pwrUpY);
 	if(pwrUpY>=window.innerHeight||power_pickup===1){
 		if (power_pickup===1){
-			points+=100*multiplier;
+			points+=100;
 			numPoints.innerHTML='points: '+points;
 			for (let i=0;i<10;i++){
 				ifhit=1;
@@ -502,7 +498,7 @@ function warning(){
 	if (confirm("Clicking 'OK' means that you want to start hardcore mode (one life). This cannot be undone until you reload. However, you will get x2 points. Continue?")){
 		numLives=1;
 		HPtxt="x1";
-		isHard=1;
+		isHard=2;
 		start();
 	}
 	}
@@ -672,6 +668,7 @@ function movepew(timestamp) {
 	}
 }
 function commitSuicide() {
+	console.log('suicide triggered');
 	numLives=0;
 	HPtxt="x0";
 	daEnd();
@@ -778,10 +775,10 @@ function collide(mtr, laser,ship, i){
 		hit=1;
 		//console.log('hit!!');
 		if (isGold[i]==1){
-			points+=10*multiplier;
+			points+=(10*isHard);
 			isGold[i]=0;
 		}else{
-			points+=1*multiplier;
+			points+=(1*isHard);
 		}
 		numPoints.innerHTML = "points: " + points;
 		pews.setAttributeNS(null, 'x1', -312);
@@ -811,6 +808,9 @@ function collide(mtr, laser,ship, i){
 			hitnoise[Math.floor(Math.random()*3)].play();
 		}
 		if(numLives<=0){
+			if(numLives<0){
+				numLives=0;
+			}
 			/*it's*/ daEnd();
 		}
 		
@@ -912,10 +912,10 @@ function unPause(){
 
 function reset() {
 	if (numLives<=0){
-		if(isHard==0){
+		if(isHard==1){
 			numLives=5;
 		} else {
-			if(isHard==1){
+			if(isHard==2){
 				numLives=1;
 			}
 		}
