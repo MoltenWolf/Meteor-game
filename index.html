@@ -698,7 +698,7 @@ function daEnd(){
 	endwrd.appendChild(endNode);
 	svg.appendChild(endwrd);
 	
-	hsendwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
+	/*hsendwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 	hsendNode=document.createTextNode("GAME OVER");
 	hsendwrd.setAttributeNS(null, 'x', (window.innerWidth/2));
 	hsendwrd.setAttributeNS(null, 'y', (window.innerHeight*(2/3)));
@@ -707,7 +707,7 @@ function daEnd(){
 	hsendwrd.setAttributeNS(null, 'fill', 'red');
 	hsendwrd.appendChild(hsendNode);
 	svg.appendChild(hsendwrd);
-	
+	*/
 	
 	//the final score
 
@@ -899,7 +899,7 @@ function makebtn(){
 	btnwrd.appendChild(btntxt);
 	
 	
-	svg.appendChild(btnwrd);
+	/*svg.appendChild(btnwrd);
 	var hsbtnWidth=window.innerWidth/4;
 	hsbtn.setAttributeNS(null, 'width', window.innerWidth/4);
 	hsbtn.setAttributeNS(null,'height',window.innerHeight/20);
@@ -917,7 +917,7 @@ function makebtn(){
 	hsbtnwrd.setAttributeNS(null, 'y', 3*(window.innerHeight/4)+40);
 	hsbtnwrd.setAttributeNS(null, 'font-size', window.innerHeight/20);
 	hsbtnwrd.setAttributeNS(null, 'fill', 'red');
-	hsbtnwrd.appendChild(hsbtntxt);
+	hsbtnwrd.appendChild(hsbtntxt);*/
 	
 	//btntxt.length;
 	//console.log("Button text length = " + btnwrd.getAttributeNS(null, 'textLength'));
@@ -925,8 +925,8 @@ function makebtn(){
 	
 	btn.addEventListener('click', reset);
 	btnwrd.addEventListener('click', reset);
-	hsbtn.addEventListener('click', start);
-	hsbtnwrd.addEventListener('click', start);
+/*	hsbtn.addEventListener('click', start);
+	hsbtnwrd.addEventListener('click', start);*/
 }
 
 function pause(){
