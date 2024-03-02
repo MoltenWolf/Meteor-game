@@ -11,6 +11,7 @@
 
 var endAlr= 0;
 var btn=document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+var hsbtn=document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 var noMove=1;
 var started=0;
 var ctm;
@@ -26,6 +27,7 @@ var shield=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var plasmaCannon=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var radius =(window.innerHeight+window.innerWidth)/50;
 var endwrd, wrdy, wrdx, endNode;
+var hsendwrd, hswrdy, hswrdx, hsendNode;
 var svg = document.getElementById('space');
 var meteorx = [], meteory=[];
 var meteors = [];
@@ -59,6 +61,7 @@ var fscrNode=document.createTextNode('');
 var startNode=document.createTextNode('Click to start');
 var hardNode=document.createTextNode('Click to start hardcore');
 var btntxt= document.createTextNode("Click to restart");
+var hsbtntxt = document.createTextNode("Return to Home Screen");
 var txt = document.createTextNode("points: 0");
 var HPtxt = 0;
 var hplng = 125;
@@ -682,12 +685,8 @@ function daEnd(){
 	endscr.setAttributeNS(null, 'width', window.innerWidth);
 	endscr.setAttributeNS(null, 'fill-opacity', 0.5);
 	svg.appendChild(endscr);
-
-
-	
 	
 	//words that say "GAME OVER"
-
 	endwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 	endNode=document.createTextNode("GAME OVER");
 	endwrd.setAttributeNS(null, 'x', (window.innerWidth/2));
@@ -697,8 +696,16 @@ function daEnd(){
 	endwrd.setAttributeNS(null, 'fill', 'red');
 	endwrd.appendChild(endNode);
 	svg.appendChild(endwrd);
-
-
+	
+	hsendwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
+	hsendNode=document.createTextNode("GAME OVER");
+	hsendwrd.setAttributeNS(null, 'x', (window.innerWidth/2));
+	hsendwrd.setAttributeNS(null, 'y', (window.innerHeight*(2/3));
+	hsendwrd.setAttributeNS(null, 'style', "text-anchor: middle");
+	hsendwrd.setAttributeNS(null, 'font-size', 60);
+	hsendwrd.setAttributeNS(null, 'fill', 'red');
+	hsendwrd.appendChild(hsendNode);
+	svg.appendChild(hsendwrd);
 	
 	
 	//the final score
