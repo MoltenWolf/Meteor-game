@@ -55,6 +55,7 @@ var startwrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var hardcorewrd=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var finalscr=document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var btnwrd= document.createElementNS('http://www.w3.org/2000/svg', 'text');
+var hsbtnwrd= document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var numPoints = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var hitPoints = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 var fscrNode=document.createTextNode('');
@@ -897,12 +898,35 @@ function makebtn(){
 	btnwrd.setAttributeNS(null, 'fill', 'red');
 	btnwrd.appendChild(btntxt);
 	
+	
+	svg.appendChild(btnwrd);
+	var hsbtnWidth=window.innerWidth/4;
+	hsbtn.setAttributeNS(null, 'width', window.innerWidth/4);
+	hsbtn.setAttributeNS(null,'height',window.innerHeight/20);
+	hsbtn.setAttributeNS(null, 'y', 3*(window.innerHeight/4));
+	hsbtn.setAttributeNS(null, 'x', ((window.innerWidth/2)+(btnWidth)/2));
+	hsbtn.setAttributeNS(null, 'stroke', 'white');
+	hsbtn.setAttributeNS(null, 'stroke-width', 1);
+	hsbtn.setAttributeNS(null,'fill','black');
+	svg.appendChild(hsbtn);
+	
+	
+	btnwrd.setAttributeNS(null, 'x', window.innerWidth/2);
+	//btnwrd.setAttributeNS(null, 'textLength', btnWidth);
+	btnwrd.setAttributeNS(null, 'style', "text-anchor: middle");
+	btnwrd.setAttributeNS(null, 'y', 3*(window.innerHeight/4)+40);
+	btnwrd.setAttributeNS(null, 'font-size', window.innerHeight/20);
+	btnwrd.setAttributeNS(null, 'fill', 'red');
+	btnwrd.appendChild(btntxt);
+	
 	//btntxt.length;
 	//console.log("Button text length = " + btnwrd.getAttributeNS(null, 'textLength'));
 	svg.appendChild(btnwrd);
 	
 	btn.addEventListener('click', reset);
 	btnwrd.addEventListener('click', reset);
+	hsbtn.addEventListener('click', start);
+	hsbtnwrd.addEventListener('click', start);
 }
 
 function pause(){
