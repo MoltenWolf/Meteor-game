@@ -15,6 +15,7 @@ var noMove=1;
 var started=0;
 var ctm;
 var endscr = 0;
+var multiplier = 1;
 var selectOP;
 var started=0;
 var pwrUpPos=Math.random()*window.innerWidth;
@@ -81,7 +82,10 @@ var pewspwn=(window.innerHeight+window.innerWidth)/20
 var num_star = 300;
 
 var gameSpeed = 1;
-var myAudio= new Audio('SpaceAdventure.mp3');
+var myAudio= [spcAdv, MTRgs1, MTRgs2];
+var spcAdv=new Audio('SpaceAdventure.mp3');
+var MTRgs1=new Audio('MTRgamesong1.mp3');
+var MTRgs2=new Audio('MTRgamesong2.mp3');
 var pewsound= new Audio('Pew.wav');
 var explode= [];
 var hitnoise=[new Audio('ding.mp3'), new Audio('donk.mp3'), new Audio('dink.mp3')];
@@ -357,7 +361,7 @@ function BOOOOM(){
 	plasmaCannon.setAttributeNS(null, 'y', pwrUpY);
 	if(pwrUpY>=window.innerHeight||power_pickup===1){
 		if (power_pickup===1){
-			points+=100;
+			points+=100*multiplier;
 			numPoints.innerHTML='points: '+points;
 			for (let i=0;i<10;i++){
 				ifhit=1;
@@ -774,10 +778,10 @@ function collide(mtr, laser,ship, i){
 		hit=1;
 		//console.log('hit!!');
 		if (isGold[i]==1){
-			points+=10;
+			points+=10*multiplier;
 			isGold[i]=0;
 		}else{
-			points++;
+			points+=1*multiplier;
 		}
 		numPoints.innerHTML = "points: " + points;
 		pews.setAttributeNS(null, 'x1', -312);

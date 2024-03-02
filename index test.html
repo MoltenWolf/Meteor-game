@@ -45,7 +45,7 @@ var muteBtn=document.createElementNS('http://www.w3.org/2000/svg', 'image');
 var exploded=0;
 var randommtr=[0,0,0,0,0,0,0,0,0,0];
 var points=0;
-var numLives=0;//"Infinity";
+var numLives=5;//"Infinity";
 var mtrWidth= 100;
 var mtrHeight= 100;
 var livesImg=document.createElementNS('https://www.w3.org/2000/svg', 'image');
@@ -62,7 +62,7 @@ var btntxt= document.createTextNode("Click to restart");
 var txt = document.createTextNode("points: 0");
 var HPtxt = 0;
 var hplng = 125;
-var isHard=0;
+var isHard=1;
 var pewsLng;
 var ns = "https://www.w3schools.com/edition/";
 var spaceship;//=document.getElementById('Spaceship');
@@ -498,7 +498,7 @@ function warning(){
 	if (confirm("Clicking 'OK' means that you want to start hardcore mode (one life). This cannot be undone until you reload. However, you will get x2 points. Continue?")){
 		numLives=1;
 		HPtxt="x1";
-		isHard=1;
+		isHard=2;
 		start();
 	}
 	}
@@ -668,6 +668,7 @@ function movepew(timestamp) {
 	}
 }
 function commitSuicide() {
+	console.log('suicide triggered');
 	numLives=0;
 	HPtxt="x0";
 	daEnd();
@@ -774,10 +775,10 @@ function collide(mtr, laser,ship, i){
 		hit=1;
 		//console.log('hit!!');
 		if (isGold[i]==1){
-			points+=10;
+			points+=(10*isHard);
 			isGold[i]=0;
 		}else{
-			points++;
+			points+=(1*isHard);
 		}
 		numPoints.innerHTML = "points: " + points;
 		pews.setAttributeNS(null, 'x1', -312);
@@ -807,6 +808,9 @@ function collide(mtr, laser,ship, i){
 			hitnoise[Math.floor(Math.random()*3)].play();
 		}
 		if(numLives<=0){
+			if(numLives<0){
+				numLives=0;
+			}
 			/*it's*/ daEnd();
 		}
 		
@@ -908,10 +912,10 @@ function unPause(){
 
 function reset() {
 	if (numLives<=0){
-		if(isHard==0){
+		if(isHard==1){
 			numLives=5;
 		} else {
-			if(isHard==1){
+			if(isHard==2){
 				numLives=1;
 			}
 		}
